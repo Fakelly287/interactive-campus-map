@@ -28,7 +28,7 @@
 </head>
 <body>
 <div id="container">
-    <img id="map" src="https://github.com/Fakelly287/interactive-campus-map/blob/7124eb9bf9abefa0105b14886447b36a032aed5b/my-map.png" alt="Mapa kampusu">
+    <img id="map" src="https://raw.githubusercontent.com/Fakelly287/interactive-campus-map/c0c5b1a3e2e2f8f9a2f27227664f6490067d6376/mapa.png" alt="Mapa kampusu">
 </div>
 
 <script>
@@ -41,28 +41,36 @@
         var scale = 1;
 
         container.addEventListener('mousedown', function(e) {
-            if (e.button === 0) { // Sprawdź, czy lewy przycisk myszy jest naciśnięty
+            if (e.button === 0) {
                 isDragging = true;
-                startX = e.pageX - initialX;
-                startY = e.pageY - initialY;
+                startX = e.clientX;
+                startY = e.clientY;
+                initialX = initialX || 0;
+                initialY = initialY || 0;
                 e.preventDefault();
             }
         });
 
         container.addEventListener('mousemove', function(e) {
             if (isDragging) {
-                initialX = e.pageX - startX;
-                initialY = e.pageY - startY;
-                map.style.transform = 'translate(' + initialX + 'px, ' + initialY + 'px) scale(' + scale + ')';
+                var newX = e.clientX - startX;
+                var newY = e.clientY - startY;
+                map.style.transform = 'translate(' + (initialX + newX) + 'px, ' + (initialY + newY) + 'px) scale(' + scale + ')';
             }
         });
 
         container.addEventListener('mouseup', function() {
             isDragging = false;
+            initialX += e.clientX - startX;
+            initialY += e.clientY - startY;
         });
 
         container.addEventListener('mouseleave', function() {
-            isDragging = false;
+            if (isDragging) {
+                isDragging = false;
+                initialX += e.clientX - startX;
+                initialY += e.clientY - startY;
+            }
         });
 
         container.addEventListener('wheel', function(e) {
