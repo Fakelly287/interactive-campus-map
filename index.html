@@ -38,7 +38,9 @@
         var startX, startY;
         var initialX = 0, initialY = 0;
         var translateX = 0, translateY = 0;
-        var scale = 1;
+        var scale = 1.5; // Początkowe przybliżenie
+
+        map.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
 
         container.addEventListener('mousedown', function(e) {
             if (e.button === 0) {
@@ -84,7 +86,7 @@
 
             var delta = e.deltaY > 0 ? -0.1 : 0.1;
             var newScale = scale + delta;
-            newScale = Math.min(Math.max(0.5, newScale), 2); // Ograniczenie skali do 0.5 - 2
+            newScale = Math.min(Math.max(1, newScale), 2.5); // Ograniczenie skali do 1 - 2.5
 
             translateX -= offsetX * (newScale - scale);
             translateY -= offsetY * (newScale - scale);
