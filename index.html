@@ -16,12 +16,12 @@
         height: 100%;
         overflow: hidden;
         position: relative;
+        cursor: grab;
     }
     #map {
         width: 100%;
         height: auto;
         display: block;
-        cursor: grab;
     }
 </style>
 </head>
@@ -37,14 +37,14 @@
         var isDragging = false;
         var startX, startY;
         var initialX = 0, initialY = 0;
-        var scale = 1;
         var translateX = 0, translateY = 0;
+        var scale = 1;
 
         container.addEventListener('mousedown', function(e) {
             if (e.button === 0) {
                 isDragging = true;
-                startX = e.clientX;
-                startY = e.clientY;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
                 container.style.cursor = 'grabbing';
                 e.preventDefault();
             }
@@ -52,10 +52,8 @@
 
         container.addEventListener('mousemove', function(e) {
             if (isDragging) {
-                var newX = e.clientX - startX;
-                var newY = e.clientY - startY;
-                translateX = initialX + newX;
-                translateY = initialY + newY;
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
                 map.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
             }
         });
@@ -80,12 +78,22 @@
 
         container.addEventListener('wheel', function(e) {
             e.preventDefault();
+            var rect = container.getBoundingClientRect();
+            var offsetX = (e.clientX - rect.left - translateX) / scale;
+            var offsetY = (e.clientY - rect.top - translateY) / scale;
+
             var delta = e.deltaY > 0 ? -0.1 : 0.1;
-            scale += delta;
-            scale = Math.min(Math.max(0.5, scale), 2); // Ograniczenie skali do 0.5 - 2
+            var newScale = scale + delta;
+            newScale = Math.min(Math.max(0.5, newScale), 2); // Ograniczenie skali do 0.5 - 2
+
+            translateX -= offsetX * (newScale - scale);
+            translateY -= offsetY * (newScale - scale);
+            scale = newScale;
+
             map.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
         });
     })();
 </script>
 </body>
 </html>
+
