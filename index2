@@ -28,7 +28,7 @@
 </head>
 <body>
 <div id="container">
-    <img id="map" src="https://github.com/Fakelly287/interactive-campus-map/blob/c4e6d82377c620b303256197e71c7f5925d65ab5/my-map.png" alt="Mapa kampusu">
+    <img id="map" src="https://github.com/Fakelly287/interactive-campus-map/blob/77a5e7e721bdebc5b5337d1c00e8812cbd621452/my-map.png" alt="Mapa kampusu">
 </div>
 <script>
     (function() {
