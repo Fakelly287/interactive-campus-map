@@ -21,8 +21,8 @@
         width: 100%;
         height: auto;
         display: block;
-        cursor: pointer;
-        transition: transform 0.25s ease;
+        cursor: grab; /* Zmienia kursor na "grab" podczas przesuwania */
+        transition: transform 0.2s ease;
     }
 </style>
 </head>
@@ -35,15 +35,41 @@
     (function() {
         var map = document.getElementById('map');
         var container = document.getElementById('container');
+        var isDragging = false;
+        var startX, startY;
+        var initialX = 0, initialY = 0;
         var scale = 1;
+
+        container.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            startX = e.clientX - initialX;
+            startY = e.clientY - initialY;
+            e.preventDefault();
+        });
+
+        container.addEventListener('mousemove', function(e) {
+            if (isDragging) {
+                initialX = e.clientX - startX;
+                initialY = e.clientY - startY;
+                map.style.transform = 'translate(' + initialX + 'px, ' + initialY + 'px) scale(' + scale + ')';
+            }
+        });
+
+        container.addEventListener('mouseup', function() {
+            isDragging = false;
+        });
+
+        container.addEventListener('mouseleave', function() {
+            isDragging = false;
+        });
 
         container.addEventListener('wheel', function(e) {
             e.preventDefault();
-            var delta = e.deltaY > 0 ? -0.1 : 0.1; // Określ szybkość przybliżania i oddalania
+            var delta = e.deltaY > 0 ? -0.1 : 0.1;
             var prevScale = scale;
             scale += delta;
-            scale = Math.min(Math.max(0.5, scale), 3); // Ustaw limity przybliżania
-            map.style.transform = 'scale(' + scale + ')';
+            scale = Math.min(Math.max(0.5, scale), 3);
+            map.style.transform = 'translate(' + initialX + 'px, ' + initialY + 'px) scale(' + scale + ')';
         });
     })();
 </script>
