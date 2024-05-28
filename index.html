@@ -28,7 +28,93 @@
 </head>
 <body>
 <div id="container">
-    <img id="map" src="https://github.com/Fakelly287/interactive-campus-map/blob/06147c2d59b2be60a8d589af707fa2db1fdc2acf/mapa.png" alt="Mapa kampusu">
+    <img id="map" src="https://raw.githubusercontent.com/Fakelly287/interactive-campus-map/c0c5b1a3e2e2f8f9a2f27227664f6490067d6376/mapa.png" alt="Mapa kampusu">
+</div>
+
+<script>
+    (function() {
+        var map = document.getElementById('map');
+        var container = document.getElementById('container');
+        var isDragging = false;
+        var startX, startY;
+        var initialX = 0, initialY = 0;
+        var scale = 1;
+
+        container.addEventListener('mousedown', function(e) {
+            if (e.button === 0) { // Sprawdź, czy lewy przycisk myszy jest naciśnięty
+                isDragging = true;
+                startX = e.pageX - initialX;
+                startY = e.pageY - initialY;
+                e.preventDefault();
+            }
+        });
+
+        container.addEventListener('mousemove', function(e) {
+            if (isDragging) {
+                initialX = e.pageX - startX;
+                initialY = e.pageY - startY;
+                map.style.transform = 'translate(' + initialX + 'px, ' + initialY + 'px) scale(' + scale + ')';
+            }
+        });
+
+        container.addEventListener('mouseup', function() {
+            isDragging = false;
+        });
+
+        container.addEventListener('mouseleave', function() {
+            isDragging = false;
+        });
+
+        container.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            var delta = e.deltaY > 0 ? -0.1 : 0.1;
+            scale += delta;
+            scale = Math.min(Math.max(0.5, scale), 2); // Ograniczenie skali do 0.5 - 2
+            map.style.transform = 'translate(' + initialX + 'px, ' + initialY + 'px) scale(' + scale + ')';
+        });
+    })();
+</script>
+</body>
+</html>
+W tej wersji kodu zmieniliśmy obsługę zdarzenia mousedown, aby sprawdzała, czy lewy przycisk myszy został naciśnięty (e.button === 0). Jeśli tak, wtedy ustawiamy flagę isDragging na true, co umożliwia przesuwanie obrazu podczas przeciągania myszy. Daj mi znać, czy to rozwiązuje problem!
+
+nie działa
+ChatGPT
+Przepraszam za wszelkie trudności. Spróbujmy poprawić kod. W przypadku przesuwania obrazu za pomocą myszy musimy śledzić pozycję myszy w momencie kliknięcia i przemieszczenia się myszy. Oto zaktualizowany kod:
+
+html
+Skopiuj kod
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interaktywna mapa</title>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+    }
+    #container {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        position: relative;
+    }
+    #map {
+        width: 100%;
+        height: auto;
+        display: block;
+        cursor: grab;
+        transition: transform 0.2s ease;
+    }
+</style>
+</head>
+<body>
+<div id="container">
+    <img id="map" src="https://raw.githubusercontent.com/Fakelly287/interactive-campus-map/c0c5b1a3e2e2f8f9a2f27227664f6490067d6376/mapa.png" alt="Mapa kampusu">
 </div>
 
 <script>
