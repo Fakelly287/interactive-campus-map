@@ -27,49 +27,29 @@
 </head>
 <body>
     <div id="container">
-        <!-- Zmień ścieżkę do obrazu na nazwę swojego pliku -->
-        <img id="map" src="my-map.png" alt="Mapa kampusu">
+        <!-- Obraz będzie pobierany dynamicznie za pomocą JavaScript -->
+        <img id="map" src="" alt="Mapa kampusu">
     </div>
 
     <script>
         (function() {
             var map = document.getElementById('map');
             var container = document.getElementById('container');
-            var isDragging = false;
-            var startX, startY;
-            var initialX = 0, initialY = 0;
-            var scale = 1;
 
-            container.addEventListener('mousedown', function(e) {
-                isDragging = true;
-                startX = e.pageX - initialX;
-                startY = e.pageY - initialY;
-                e.preventDefault();
-            });
+            // Funkcja do pobierania najnowszego obrazu z gałęzi main na GitHubie
+            function updateMapImage() {
+                // Tworzenie adresu URL obrazu na podstawie gałęzi main
+                var imageUrl = "https://raw.githubusercontent.com/nazwa_użytkownika/nazwa_repozytorium/main/my-map.png";
 
-            container.addEventListener('mousemove', function(e) {
-                if (isDragging) {
-                    initialX = e.pageX - startX;
-                    initialY = e.pageY - startY;
-                    map.style.transform = 'translate(' + initialX + 'px, ' + initialY + 'px) scale(' + scale + ')';
-                }
-            });
+                // Ustawienie adresu URL obrazu
+                map.src = imageUrl + "?t=" + new Date().getTime(); // Dodanie znacznika czasu, aby uniknąć pamięci podręcznej
+            }
 
-            container.addEventListener('mouseup', function() {
-                isDragging = false;
-            });
+            // Wywołaj funkcję updateMapImage przy załadowaniu strony
+            updateMapImage();
 
-            container.addEventListener('mouseleave', function() {
-                isDragging = false;
-            });
-
-            container.addEventListener('wheel', function(e) {
-                e.preventDefault();
-                var delta = e.deltaY > 0 ? -0.1 : 0.1;
-                scale += delta;
-                scale = Math.min(Math.max(0.5, scale), 3); // Limity zoomowania
-                map.style.transform = 'translate(' + initialX + 'px, ' + initialY + 'px) scale(' + scale + ')';
-            });
+            // Automatyczne odświeżanie obrazu co minutę (lub inną wybraną częstotliwość)
+            setInterval(updateMapImage, 60000); // 60000 milisekund = 1 minuta
         })();
     </script>
 </body>
