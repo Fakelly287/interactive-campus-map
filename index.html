@@ -28,7 +28,7 @@
 </head>
 <body>
 <div id="container">
-    <img id="map" src="https://github.com/Fakelly287/interactive-campus-map/blob/3238d7df787122fad2453abb9466edcfc4110382/my-map.png" alt="Mapa kampusu">
+    <img id="map" src="https://raw.githubusercontent.com/Fakelly287/interactive-campus-map/c0c5b1a3e2e2f8f9a2f27227664f6490067d6376/mapa.png" alt="Mapa kampusu">
 </div>
 
 <script>
@@ -41,10 +41,12 @@
         var scale = 1;
 
         container.addEventListener('mousedown', function(e) {
-            isDragging = true;
-            startX = e.pageX - initialX;
-            startY = e.pageY - initialY;
-            e.preventDefault();
+            if (e.button === 0) { // Sprawdź, czy lewy przycisk myszy jest naciśnięty
+                isDragging = true;
+                startX = e.pageX - initialX;
+                startY = e.pageY - initialY;
+                e.preventDefault();
+            }
         });
 
         container.addEventListener('mousemove', function(e) {
@@ -66,13 +68,11 @@
         container.addEventListener('wheel', function(e) {
             e.preventDefault();
             var delta = e.deltaY > 0 ? -0.1 : 0.1;
-            var prevScale = scale;
             scale += delta;
-            scale = Math.min(Math.max(0.5, scale), 3);
+            scale = Math.min(Math.max(0.5, scale), 2); // Ograniczenie skali do 0.5 - 2
             map.style.transform = 'translate(' + initialX + 'px, ' + initialY + 'px) scale(' + scale + ')';
         });
     })();
 </script>
 </body>
 </html>
-
