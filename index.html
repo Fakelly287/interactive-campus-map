@@ -1,56 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Interaktywna mapa kampusu</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        #container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        #map {
-            position: absolute;
-            top: 0;
-            left: 0;
-            transition: transform 0.25s ease;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interaktywna mapa</title>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+    }
+    #container {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        position: relative;
+    }
+    #map {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+</style>
 </head>
 <body>
-    <div id="container">
-        <!-- Obraz będzie pobierany dynamicznie za pomocą JavaScript -->
-        <img id="map" src="my-map.png" alt="Mapa kampusu">
-    </div>
-
-    <script>
-        (function() {
-            var map = document.getElementById('map');
-            var container = document.getElementById('container');
-
-            // Funkcja do pobierania najnowszego obrazu z gałęzi main na GitHubie
-            function updateMapImage() {
-                // Tworzenie adresu URL obrazu na podstawie gałęzi main
-                var imageUrl = "https://github.com/Fakelly287/interactive-campus-map/blob/edf2c5d1700f6733c6514b99f903a99b5f3e3d51/my-map.png";
-
-                // Ustawienie adresu URL obrazu
-                map.src = imageUrl + "?t=" + new Date().getTime(); // Dodanie znacznika czasu, aby uniknąć pamięci podręcznej
-            }
-
-            // Wywołaj funkcję updateMapImage przy załadowaniu strony
-            updateMapImage();
-
-            // Automatyczne odświeżanie obrazu co minutę (lub inną wybraną częstotliwość)
-            setInterval(updateMapImage, 60000); // 60000 milisekund = 1 minuta
-        })();
-    </script>
+<div id="container">
+    <img id="map" src="https://raw.githubusercontent.com/fakelly287/interactive-campus-map/main/my-map.png" alt="Mapa kampusu">
+</div>
 </body>
 </html>
