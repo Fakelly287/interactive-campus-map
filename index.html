@@ -14,7 +14,7 @@
     #container {
         width: 100%;
         height: 100%;
-        overflow: hidden;
+        overflow: auto;
         position: relative;
     }
     #map {
@@ -28,8 +28,9 @@
 </head>
 <body>
 <div id="container">
-    <img id="map" src="https://github.com/Fakelly287/interactive-campus-map/blob/dc55add1312976fc4db8191b31b89bd65c2585b9/my-map.png" alt="Mapa kampusu">
+    <img id="map" src="https://raw.githubusercontent.com/Fakelly287/interactive-campus-map/c0c5b1a3e2e2f8f9a2f27227664f6490067d6376/mapa.png" alt="Mapa kampusu">
 </div>
+
 <script>
     (function() {
         var map = document.getElementById('map');
@@ -39,6 +40,7 @@
         container.addEventListener('wheel', function(e) {
             e.preventDefault();
             var delta = e.deltaY > 0 ? -0.1 : 0.1; // Określ szybkość przybliżania i oddalania
+            var prevScale = scale;
             scale += delta;
             scale = Math.min(Math.max(0.5, scale), 3); // Ustaw limity przybliżania
             map.style.transform = 'scale(' + scale + ')';
@@ -47,4 +49,3 @@
 </script>
 </body>
 </html>
-my-map.png
