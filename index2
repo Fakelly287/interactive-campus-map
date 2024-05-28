@@ -26,7 +26,7 @@
 </head>
 <body>
 <div id="container">
-    <img id="map" src="https://github.com/Fakelly287/interactive-campus-map/blob/c4e6d82377c620b303256197e71c7f5925d65ab5/my-map.png" alt="Mapa kampusu">
+    <img id="map" src="https://github.com/Fakelly287/interactive-campus-map/blob/42e92c19321b623e0ac940cf362885007de81939/my-map.png" alt="Mapa kampusu">
 </div>
 </body>
 </html>
