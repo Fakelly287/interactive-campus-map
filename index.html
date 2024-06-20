@@ -29,7 +29,6 @@
 <div id="container">
     <img id="map" src="my_map.png" alt="Mapa kampusu">
 </div>
-
 <script>
     (function() {
         var map = document.getElementById('map');
@@ -38,7 +37,7 @@
         var startX, startY;
         var initialX = 0, initialY = 0;
         var translateX = 0, translateY = 0;
-        var scale = 2; // Początkowe przybliżenie
+        var scale = 1.5; // Początkowe przybliżenie
 
         map.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
 
@@ -86,73 +85,13 @@
 
             var delta = e.deltaY > 0 ? -0.1 : 0.1;
             var newScale = scale + delta;
-            newScale = Math.min(Math.max(1.5, newScale), 3); // Ograniczenie skali do 1.5 - 3
+            newScale = Math.min(Math.max(1, newScale), 2.5); // Ograniczenie skali do 1 - 2.5
 
             translateX -= offsetX * (newScale - scale);
             translateY -= offsetY * (newScale - scale);
             scale = newScale;
 
             map.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
-        });
-
-        // Touch events for mobile
-        var lastTouchEnd = 0;
-        var pinchStartDist = 0;
-        var pinchStartScale = scale;
-        var lastTouchX, lastTouchY;
-
-        container.addEventListener('touchstart', function(e) {
-            if (e.touches.length === 1) {
-                isDragging = true;
-                startX = e.touches[0].clientX - translateX;
-                startY = e.touches[0].clientY - translateY;
-                container.style.cursor = 'grabbing';
-                e.preventDefault();
-            } else if (e.touches.length === 2) {
-                isDragging = false;
-                pinchStartDist = Math.hypot(
-                    e.touches[0].clientX - e.touches[1].clientX,
-                    e.touches[0].clientY - e.touches[1].clientY
-                );
-                pinchStartScale = scale;
-                lastTouchX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-                lastTouchY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-                e.preventDefault();
-            }
-        });
-
-        container.addEventListener('touchmove', function(e) {
-            if (isDragging && e.touches.length === 1) {
-                translateX = e.touches[0].clientX - startX;
-                translateY = e.touches[0].clientY - startY;
-                map.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
-            } else if (e.touches.length === 2) {
-                var currentDist = Math.hypot(
-                    e.touches[0].clientX - e.touches[1].clientX,
-                    e.touches[0].clientY - e.touches[1].clientY
-                );
-                var scaleChange = currentDist / pinchStartDist;
-                var newScale = Math.min(Math.max(1.5, pinchStartScale * scaleChange), 3);
-
-                var offsetX = (lastTouchX - container.getBoundingClientRect().left - translateX) / scale;
-                var offsetY = (lastTouchY - container.getBoundingClientRect().top - translateY) / scale;
-
-                translateX -= offsetX * (newScale - scale);
-                translateY -= offsetY * (newScale - scale);
-                scale = newScale;
-
-                map.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
-                e.preventDefault();
-            }
-        });
-
-        container.addEventListener('touchend', function(e) {
-            if (isDragging && e.touches.length === 0) {
-                isDragging = false;
-                initialX = translateX;
-                initialY = translateY;
-                container.style.cursor = 'grab';
-            }
         });
     })();
 </script>
