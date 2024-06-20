@@ -38,7 +38,9 @@
         var startX, startY;
         var initialX = 0, initialY = 0;
         var translateX = 0, translateY = 0;
-        var scale = 1.5; // Początkowe przybliżenie
+        var scale = 2; // Początkowe przybliżenie
+        var minScale = 1.5; // Minimalne przybliżenie
+        var maxScale = 3; // Maksymalne przybliżenie
 
         map.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
 
@@ -86,7 +88,7 @@
 
             var delta = e.deltaY > 0 ? -0.1 : 0.1;
             var newScale = scale + delta;
-            newScale = Math.min(Math.max(1, newScale), 2.5); // Ograniczenie skali do 1 - 2.5
+            newScale = Math.min(Math.max(minScale, newScale), maxScale); // Ograniczenie skali do 1.5 - 3
 
             translateX -= offsetX * (newScale - scale);
             translateY -= offsetY * (newScale - scale);
@@ -98,4 +100,5 @@
 </script>
 </body>
 </html>
+
 
