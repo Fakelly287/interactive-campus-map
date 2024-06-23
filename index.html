@@ -32,13 +32,13 @@
         var startX, startY;
         var initialX = 0, initialY = 0;
         var translateX = 0, translateY = 0;
-        var scale = 2; // Początkowe przybliżenie
+        var scale = 1; // Początkowe przybliżenie
         var minScale = 0.2; // Minimalne przybliżenie
         var maxScale = 8; // Maksymalne przybliżenie
 
         function updateContainerSize() {
-            container.style.width = map.width * scale + 'px';
-            container.style.height = map.height * scale + 'px';
+            container.style.width = map.width + 'px';
+            container.style.height = map.height + 'px';
         }
 
         map.onload = function() {
@@ -90,13 +90,12 @@
 
             var delta = e.deltaY > 0 ? -0.1 : 0.1;
             var newScale = scale + delta;
-            newScale = Math.min(Math.max(minScale, newScale), maxScale); // Ograniczenie skali do 1.5 - 3
+            newScale = Math.min(Math.max(minScale, newScale), maxScale);
 
             translateX -= offsetX * (newScale - scale);
             translateY -= offsetY * (newScale - scale);
             scale = newScale;
 
-            updateContainerSize();
             map.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
         });
     })();
